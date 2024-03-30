@@ -6,19 +6,21 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private Rigidbody			rigidBody;
-	[SerializeField] private float				moveSpeed = 50;
+	[SerializeField] private float				moveSpeed = 2;
+	[SerializeField] private float				jumpForce = 1;
 	[SerializeField] private bool				active = false;
 	[SerializeField] private bool				jumping = false;
 	[SerializeField] private bool				exit = false;
 	[SerializeField] private KeyCode			idKey;
-	[SerializeField] private Vector3			last;
-	[SerializeField] private Vector3			initial;
+	[SerializeField] private Vector3			lastP;
 	[SerializeField] private Vector3			camInitPos;
 	[SerializeField] private Quaternion			camInitRot;
 	[SerializeField] private KeyCode			key1;
 	[SerializeField] private KeyCode			key2;
 	[SerializeField] private PlayerController	p1;
 	[SerializeField] private PlayerController	p2;
+	[SerializeField] private bool				teleportable = true;
+	[SerializeField] private bool				teleported = false;
 
 	[SerializeField] static private int	lvl = 0;
 	[SerializeField] static private int	maxLvl = 3;
@@ -50,8 +52,7 @@ public class PlayerController : MonoBehaviour
 				this.p2 = GameObject.Find("Claire").GetComponent<PlayerController>();
 				break ;
 		}
-		this.last = this.transform.position;
-		this.initial = this.transform.position;
+		this.lastP = this.transform.position;
 		Camera.main.transform.GetLocalPositionAndRotation(out this.camInitPos, out this.camInitRot);
     }
 
@@ -67,9 +68,10 @@ public class PlayerController : MonoBehaviour
 		else if (Input.GetKey(this.key1) || Input.GetKey(this.key2))
 			this.active = false;
 		else if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.Backspace))
-			this.RestartGame();
+			this.Reload();
 		else if (this.exit && this.p1.exit && this.p2.exit)
 		{
+			this.exit = false;
 			Debug.Log("You've won Stage" + (PlayerController.lvl + 1) + "!");
 			PlayerController.lvl = (PlayerController.lvl + 1) % PlayerController.maxLvl;
 			SceneManager.LoadScene("Stage" + (PlayerController.lvl + 1));
@@ -84,18 +86,18 @@ public class PlayerController : MonoBehaviour
 
 	void Controls()
 	{
-		float	move = this.moveSpeed * Input.GetAxis("Horizontal")
-			* Time.deltaTime - this.rigidBody.velocity.x * this.rigidBody.mass;
+		float	move = this.moveSpeed * Input.GetAxis("Horizontal");
 
-		if (Mathf.Abs(move) < 0.001)
-			move = 0;
-		Camera.main.transform.Translate(this.transform.position - this.last, Space.World);
-		this.last = this.transform.position;
-		this.rigidBody.AddForce(new Vector3(move, 0, 0), ForceMode.Impulse);
-		if (!jumping && Input.GetButton("Jump"))
+		Camera.main.transform.Translate(this.transform.position - this.lastP, Space.World);
+		this.lastP = this.transform.position;
+		this.rigidBody.AddForce(move, 0, 0);
+		if (!jumping)
 		{
-			this.rigidBody.AddForce(new Vector3(0, 1, 0), ForceMode.Impulse);
-			this.jumping = true;
+			if (Input.GetButton("Jump"))
+			{
+				this.rigidBody.AddForce(new Vector3(0, this.jumpForce, 0), ForceMode.Impulse);
+				this.jumping = true;
+			}
 		}
 	}
 
@@ -113,23 +115,30 @@ public class PlayerController : MonoBehaviour
 			this.exit = true;
 		else
 			this.exit = false;
-		Debug.Log("TRIGGER" + this.name + " " + this.exit);
 	}
 
-	void RestartGame()
+	public void Reload()
 	{
-		Camera.main.transform.SetLocalPositionAndRotation(this.camInitPos, this.camInitRot);
-		this.transform.SetLocalPositionAndRotation(this.initial, new Quaternion(0, 0, 0, 0));
-		this.p1.transform.SetLocalPositionAndRotation(this.p1.initial, new Quaternion(0, 0, 0, 0));
-		this.p2.transform.SetLocalPositionAndRotation(this.p2.initial, new Quaternion(0, 0, 0, 0));
-		this.rigidBody.velocity = Vector3.zero;
-		this.p1.rigidBody.velocity = Vector3.zero;
-		this.p2.rigidBody.velocity = Vector3.zero;
-		this.active = false;
-		this.p1.active = false;
-		this.p2.active = false;
-		this.exit = false;
-		this.p1.exit = false;
-		this.p2.exit = false;
+		SceneManager.LoadScene("Stage" + (PlayerController.lvl + 1));
+	}
+
+	public void SetTeleportable(bool val)
+	{
+		this.teleportable = val;
+	}
+
+	public void SetTeleported(bool val)
+	{
+		this.teleported = val;
+	}
+
+	public bool isTeleportable()
+	{
+		return (this.teleportable);
+	}
+
+	public bool isTeleported()
+	{
+		return (this.teleported);
 	}
 }

@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class Plateform : MonoBehaviour
 {
-	private GameObject	bluePlate;
-	private GameObject	yellowPlate;
-	private GameObject	redPlate;
-	private float		t = 0;
+	public float	speed = 0;
 
-    // Start is called before the first frame update
+	private Rigidbody	rigidBody;
+	
     void Start()
     {
-        this.bluePlate = this.transform.GetChild(0).gameObject;
-        this.yellowPlate = this.transform.GetChild(0).gameObject;
-        this.redPlate = this.transform.GetChild(0).gameObject;
+		this.rigidBody = this.GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+		this.rigidBody.velocity = new Vector3(this.speed * Mathf.Cos(Time.timeSinceLevelLoad), 0, 0);
     }
 }

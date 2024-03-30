@@ -241,7 +241,6 @@ GameObject:
   - component: {fileID: 88009096}
   - component: {fileID: 88009100}
   - component: {fileID: 88009101}
-  - component: {fileID: 88009102}
   m_Layer: 0
   m_Name: Claire
   m_TagString: Untagged
@@ -350,19 +349,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 0}
-  moveSpeed: 50
+  moveSpeed: 2
+  jumpForce: 1
   active: 0
   jumping: 0
   exit: 0
   idKey: 0
-  last: {x: 0, y: 0, z: 0}
-  initial: {x: 0, y: 0, z: 0}
+  lastP: {x: 0, y: 0, z: 0}
   camInitPos: {x: 0, y: 0, z: 0}
   camInitRot: {x: 0, y: 0, z: 0, w: 0}
   key1: 0
   key2: 0
   p1: {fileID: 0}
   p2: {fileID: 0}
+  teleportable: 1
+  teleported: 0
 --- !u!54 &88009101
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -390,21 +391,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!114 &88009102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 88009095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0.6297672, b: 1, a: 1}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!1 &133632356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,19 +1867,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 0}
-  moveSpeed: 50
+  moveSpeed: 2
+  jumpForce: 1
   active: 0
   jumping: 0
   exit: 0
   idKey: 0
-  last: {x: 0, y: 0, z: 0}
-  initial: {x: 0, y: 0, z: 0}
+  lastP: {x: 0, y: 0, z: 0}
   camInitPos: {x: 0, y: 0, z: 0}
   camInitRot: {x: 0, y: 0, z: 0, w: 0}
   key1: 0
   key2: 0
   p1: {fileID: 0}
   p2: {fileID: 0}
+  teleportable: 1
+  teleported: 0
 --- !u!54 &1654904278
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2043,19 +2031,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 0}
-  moveSpeed: 50
+  moveSpeed: 2
+  jumpForce: 1
   active: 0
   jumping: 0
   exit: 0
   idKey: 0
-  last: {x: 0, y: 0, z: 0}
-  initial: {x: 0, y: 0, z: 0}
+  lastP: {x: 0, y: 0, z: 0}
   camInitPos: {x: 0, y: 0, z: 0}
   camInitRot: {x: 0, y: 0, z: 0, w: 0}
   key1: 0
   key2: 0
   p1: {fileID: 0}
   p2: {fileID: 0}
+  teleportable: 1
+  teleported: 0
 --- !u!54 &2111150976
 Rigidbody:
   m_ObjectHideFlags: 0
