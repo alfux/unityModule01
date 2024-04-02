@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private bool				teleportable = true;
 	[SerializeField] private bool				teleported = false;
 
-	[SerializeField] static private int	lvl = 0;
+	[SerializeField] static private int	lvl = 3;
 	[SerializeField] static private int	maxLvl = 3;
 
     void Start()
@@ -82,6 +82,8 @@ public class PlayerController : MonoBehaviour
 	{
 		if (this.active)
 			this.Controls();
+		if (this.rigidBody.IsSleeping())
+			this.rigidBody.WakeUp();
 	}
 
 	void Controls()
