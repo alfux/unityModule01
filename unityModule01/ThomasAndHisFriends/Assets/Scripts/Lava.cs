@@ -7,6 +7,8 @@ public class Lava : MonoBehaviour
 	private Material	lava;
 	private Vector2		baseOffset;
 	private Vector2		baseScale;
+
+	public float		stickiness = 2;
 	
 	void Start()
 	{
@@ -30,11 +32,39 @@ public class Lava : MonoBehaviour
 	void OnTriggerEnter(Collider other)
 	{
 		PlayerController	player = other.GetComponent<PlayerController>();
+		Rigidbody			rb = other.GetComponent<Rigidbody>();
 
 		if (player != null)
 		{
 			Debug.Log("YOU DIED.");
-			player.Reload();
+			rb.velocity = new Vector3(
+				rb.velocity.x / this.stickiness,
+				rb.velocity.y / this.stickiness,
+				rb.velocity.z / this.stickiness
+			);
+			player.DetachCamera(true);
 		}
+	}
+
+	void OnTriggerStay(Collider other)
+	{
+		Rigidbody			rb = other.GetComponent<Rigidbody>();
+
+		if (rb != null)
+		{
+			rb.velocity = new Vector3(
+				rb.velocity.x / this.stickiness,
+				rb.velocity.y / this.stickiness,
+				rb.velocity.z / this.stickiness
+			);
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		PlayerController	player = other.GetComponent<PlayerController>();
+
+		if (player != null)
+			player.Reload();
 	}
 }

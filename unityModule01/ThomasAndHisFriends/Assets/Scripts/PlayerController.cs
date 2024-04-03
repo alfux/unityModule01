@@ -5,25 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-	[SerializeField] private Rigidbody			rigidBody;
-	[SerializeField] private float				moveSpeed = 2;
-	[SerializeField] private float				jumpForce = 1;
-	[SerializeField] private bool				active = false;
-	[SerializeField] private bool				jumping = false;
-	[SerializeField] private bool				exit = false;
-	[SerializeField] private KeyCode			idKey;
-	[SerializeField] private Vector3			lastP;
-	[SerializeField] private Vector3			camInitPos;
-	[SerializeField] private Quaternion			camInitRot;
-	[SerializeField] private KeyCode			key1;
-	[SerializeField] private KeyCode			key2;
-	[SerializeField] private PlayerController	p1;
-	[SerializeField] private PlayerController	p2;
-	[SerializeField] private bool				teleportable = true;
-	[SerializeField] private bool				teleported = false;
+	private Rigidbody			rigidBody;
+	private float				moveSpeed = 2;
+	private float				jumpForce = 1;
+	private bool				active = false;
+	private bool				jumping = false;
+	private bool				exit = false;
+	private KeyCode			idKey;
+	private Vector3			lastP;
+	private Vector3			camInitPos;
+	private Quaternion			camInitRot;
+	private KeyCode			key1;
+	private KeyCode			key2;
+	private PlayerController	p1;
+	private PlayerController	p2;
+	private bool				teleportable = true;
+	private bool				teleported = false;
+	private bool				camDetach = false;
 
-	[SerializeField] static private int	lvl = 3;
-	[SerializeField] static private int	maxLvl = 3;
+	static private int	lvl = 4;
+	static private int	maxLvl = 4;
 
     void Start()
     {
@@ -90,7 +91,8 @@ public class PlayerController : MonoBehaviour
 	{
 		float	move = this.moveSpeed * Input.GetAxis("Horizontal");
 
-		Camera.main.transform.Translate(this.transform.position - this.lastP, Space.World);
+		if (!this.camDetach)
+			Camera.main.transform.Translate(this.transform.position - this.lastP, Space.World);
 		this.lastP = this.transform.position;
 		this.rigidBody.AddForce(move, 0, 0);
 		if (!jumping)
@@ -142,5 +144,10 @@ public class PlayerController : MonoBehaviour
 	public bool isTeleported()
 	{
 		return (this.teleported);
+	}
+
+	public void	DetachCamera(bool val)
+	{
+		this.camDetach = val;
 	}
 }
