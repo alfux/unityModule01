@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DoorButton : MonoBehaviour
 {
-	private Vector3			baseScale;
 	private Vector3			height;
 	private bool			pressed = false;
 	private float[]			angleTracker;
@@ -22,7 +21,6 @@ public class DoorButton : MonoBehaviour
 
     void Start()
     {
-		this.baseScale = this.transform.localScale;
 		this.height = new Vector3(1, 1, 1);
 		this.baseMaterial = this.GetComponent<MeshRenderer>().material;
 		this.angleTracker = new float[this.link.Length];
@@ -92,7 +90,10 @@ public class DoorButton : MonoBehaviour
 		if (this.pressed)
 		{
 			if (this.height.y > 0.01)
+			{
 				this.height.y -= 0.02f;
+				this.transform.Translate(0, -0.02f * 0.168f, 0, Space.World);
+			}
 			for (int i = 0; i < this.link.Length; ++i)
 			{
 				if (this.ColorButton)
@@ -104,11 +105,13 @@ public class DoorButton : MonoBehaviour
 		else
 		{
 			if (this.height.y < 1)
+			{
 				this.height.y += 0.02f;
+				this.transform.Translate(0, 0.02f * 0.168f, 0, Space.World);
+			}
 			for (int i = 0; i < this.link.Length; ++i)
 				this.CloseDoor(i);
 		}
-		this.transform.localScale = Vector3.Scale(this.baseScale, this.height);
     }
 
 	void OnCollisionEnter(Collision other)
@@ -116,8 +119,7 @@ public class DoorButton : MonoBehaviour
 		ContactPoint	contact = other.GetContact(0);
 
 		if (other.gameObject.CompareTag("Player")
-			&& contact.point.y > this.transform.position.y
-			&& Mathf.Abs(contact.normal.y + 1) < 0.001)
+			&& Mathf.Abs(Mathf.Abs(contact.normal.y) - 1) < 0.001)
 		{
 			this.pressed = !this.pressed;
 			switch (other.gameObject.name)

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ColorButton : MonoBehaviour
 {
-	private Vector3			baseScale;
 	private Vector3			height;
 	private bool			pressed = false;
 	private Material		baseMaterial;
@@ -13,7 +12,6 @@ public class ColorButton : MonoBehaviour
 
     void Start()
     {
-		this.baseScale = this.transform.localScale;
 		this.height = new Vector3(1, 1, 1);
     }
 
@@ -22,11 +20,16 @@ public class ColorButton : MonoBehaviour
 		if (this.pressed)
 		{
 			if (this.height.y > 0.01)
+			{
 				this.height.y -= 0.02f;
+				this.transform.Translate(0, -0.02f * 0.168f, 0, Space.World);
+			}
 		}
 		else if (this.height.y < 1)
+		{
 			this.height.y += 0.02f;
-		this.transform.localScale = Vector3.Scale(this.baseScale, this.height);
+			this.transform.Translate(0, 0.02f * 0.168f, 0, Space.World);
+		}
     }
 
 	void OnCollisionStay(Collision other)
@@ -34,8 +37,7 @@ public class ColorButton : MonoBehaviour
 		ContactPoint	contact = other.GetContact(0);
 
 		if (other.gameObject.CompareTag("Player")
-			&& contact.point.y > this.transform.position.y
-			&& Mathf.Abs(contact.normal.y + 1) < 0.001)
+			&& Mathf.Abs(Mathf.Abs(contact.normal.y) - 1) < 0.001)
 		{
 			this.pressed = true;
 			this.Action(other);
