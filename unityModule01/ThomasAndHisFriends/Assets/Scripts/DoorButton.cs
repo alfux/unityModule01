@@ -92,7 +92,7 @@ public class DoorButton : MonoBehaviour
 			if (this.height.y > 0.01)
 			{
 				this.height.y -= 0.02f;
-				this.transform.Translate(0, -0.02f * 0.168f, 0, Space.World);
+				this.transform.Translate(0, -0.02f * 0.084f, 0, Space.World);
 			}
 			for (int i = 0; i < this.link.Length; ++i)
 			{
@@ -107,7 +107,7 @@ public class DoorButton : MonoBehaviour
 			if (this.height.y < 1)
 			{
 				this.height.y += 0.02f;
-				this.transform.Translate(0, 0.02f * 0.168f, 0, Space.World);
+				this.transform.Translate(0, 0.02f * 0.084f, 0, Space.World);
 			}
 			for (int i = 0; i < this.link.Length; ++i)
 				this.CloseDoor(i);

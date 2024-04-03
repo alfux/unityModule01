@@ -7,6 +7,7 @@ public class Teleporter : MonoBehaviour
 	public GameObject	output;
 	public bool			isOutput;
 	public float		rotSpeed = 100;
+	public float		aoe = 0.5f;
 
     void Start()
     {
@@ -25,7 +26,7 @@ public class Teleporter : MonoBehaviour
 		{
 			if (player.isTeleportable())
 			{
-				if ((player.transform.position - this.transform.position).magnitude < 0.1)
+				if ((player.transform.position - this.transform.position).magnitude < this.aoe)
 				{
 					other.transform.position = this.output.transform.position;
 					player.SetTeleportable(false);
