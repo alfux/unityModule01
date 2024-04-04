@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour
 	private bool				teleported = false;
 	private bool				camDetach = false;
 
-	static private int	lvl = 4;
-	static private int	maxLvl = 4;
+	static private int	lvl = 0;
+	static private int	maxLvl = 5;
 
     void Start()
     {
