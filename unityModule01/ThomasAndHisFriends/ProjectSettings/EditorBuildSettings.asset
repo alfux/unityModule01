@@ -21,3 +21,4 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage5.unity
     guid: 08cd0b3988f1f4d96a8479d38db55707
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
